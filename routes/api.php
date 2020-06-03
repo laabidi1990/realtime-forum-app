@@ -17,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResource('/questions', 'QuestionController')->except(['create', 'edit']);
+
+Route::apiResource('/categories', 'CategoryController')->except(['create', 'edit']);
+
+Route::apiResource('/questions/{question}/replies', 'ReplyController')->except(['create', 'edit']);
+
+Route::post('/replies/{reply}/like', 'LikeController@like');
+Route::delete('/replies/{reply}/dislike', 'LikeController@dislike');
