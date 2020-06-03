@@ -9,6 +9,16 @@ use Illuminate\Http\Request;
 class LikeController extends Controller
 {
     /**
+    * Create a new AuthController instance.
+    *
+    * @return void
+    */
+   public function __construct()
+   {
+       $this->middleware('jwt');
+   }
+   
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

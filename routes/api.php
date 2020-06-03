@@ -14,8 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'auth'
+
+], function () {
+
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('signup', 'AuthController@signup');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+
 });
 
 Route::apiResource('/questions', 'QuestionController')->except(['create', 'edit']);
@@ -25,4 +36,5 @@ Route::apiResource('/categories', 'CategoryController')->except(['create', 'edit
 Route::apiResource('/questions/{question}/replies', 'ReplyController')->except(['create', 'edit']);
 
 Route::post('/replies/{reply}/like', 'LikeController@like');
+
 Route::delete('/replies/{reply}/dislike', 'LikeController@dislike');
