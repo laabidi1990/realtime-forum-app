@@ -9,7 +9,7 @@ class User {
             this.responseAfterLogin(res);
         })
         .catch( err => {
-            console.log(err);
+            console.log(err.response.data);
         })
     }
 
@@ -51,6 +51,7 @@ class User {
             return payload.sub;
         }
     }
+
 }
 
 export default User = new User();

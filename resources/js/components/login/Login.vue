@@ -10,6 +10,7 @@
               </v-toolbar>
 
               <v-card-text>
+                
                 <v-form @submit.prevent="login">
                     <v-text-field label="Email" prepend-icon="mdi-email" type="email" v-model="form.email" required>
                     </v-text-field>
@@ -17,10 +18,19 @@
                     <v-text-field label="Password" prepend-icon="mdi-lock" type="password" v-model="form.password" required> 
                     </v-text-field>
 
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="primary" type="submit">Login</v-btn>
-                    </v-card-actions>
+                    <div class="d-flex justify-content-between">
+                      <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn color="primary" type="submit">Login</v-btn>
+                      </v-card-actions>
+                    
+                        <v-card-actions>
+                          <router-link to="/signup">
+                            <v-btn color="info">SignUp</v-btn>
+                          </router-link>
+                        </v-card-actions>
+                    </div>
+
                 </v-form>
               </v-card-text>
 
@@ -40,9 +50,15 @@
               }
           }
       },
+      created() {
+        if (User.loggedIn()) {
+            this.$router.push({name: 'forum'});
+        }
+      },
       methods: {
           login() {
-              User.login(this.form)
+              User.login(this.form);
+              window.location = '/forum';
           }
       }
   }
