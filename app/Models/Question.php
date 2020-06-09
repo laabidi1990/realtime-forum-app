@@ -33,6 +33,6 @@ class Question extends Model
 
     function getPathAttribute()
     {
-        return asset("api/questions/$this->slug");
+        return "/questions/$this->slug";
     }
 }

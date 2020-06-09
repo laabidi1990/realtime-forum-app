@@ -12,12 +12,17 @@ import Vuetify from '../plugins/vuetify';
 
 import router from './router/router';
 
+import Vue from 'vue'
+import VueSimplemde from 'vue-simplemde'
+import 'simplemde/dist/simplemde.min.css'
+
 import User from './helpers/User';
 window.User = User;
 
 window.EventBus = new Vue();
 
 Vue.component('app-home', require('./components/AppHome').default);
+Vue.component('vue-simplemde', VueSimplemde);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
