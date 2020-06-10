@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Support\Str;
@@ -36,12 +37,12 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Category $category)
+    public function store(CategoryRequest $request, Category $category)
     {
-        $category->name = $request->name;
-        $category->slug = Str::slug($request->name);
+        $category->name = $request->category;
+        $category->slug = Str::slug($request->category);
         $category->save();
-        return response('category created successfully', Response::HTTP_CREATED);
+        return response(new CategoryResource($category), Response::HTTP_CREATED);
     }
 
     /**
@@ -52,7 +53,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return new CategoryResource($category);
+        return response(new CategoryResource($category), Response::HTTP_OK);
     }
 
     /**
@@ -64,8 +65,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $category->update(['name' => $request->name, 'slug' => Str::slug($request->name)]);
-        return response('Category updated successfully', Response::HTTP_ACCEPTED);
+        $category->update(['name' => $request->category, 'slug' => Str::slug($request->category)]);
+        return response(new CategoryResource($category), Response::HTTP_ACCEPTED);
     }
 
     /**
