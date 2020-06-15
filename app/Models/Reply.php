@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\User;
+use App\Models\Question;
 use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model

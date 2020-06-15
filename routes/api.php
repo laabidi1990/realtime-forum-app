@@ -38,3 +38,7 @@ Route::apiResource('/questions/{question}/replies', 'ReplyController')->except([
 Route::post('/replies/{reply}/like', 'LikeController@like');
 
 Route::delete('/replies/{reply}/dislike', 'LikeController@dislike');
+
+Route::post('/notifications', 'NotificationsController@notifications');
+
+Route::post('/notifications/mark-read', 'NotificationsController@markAsRead');

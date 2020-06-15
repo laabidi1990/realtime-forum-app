@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReplyRequest;
 use App\Http\Resources\ReplyResource;
 use App\Models\Reply;
 use App\Models\Question;
+use App\Notifications\NewReplyNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,15 +39,15 @@ class ReplyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Question $question, Request $request)
+    public function store(Question $question, ReplyRequest $request)
     {
-        $question->replies()->create([
+        $reply = $question->replies()->create([
             'body' => $request->body,
-            'question_id' => $question->id,
             'user_id' => Auth::id(),
         ]);
-
-        return response('Your reply added successfully', Response::HTTP_CREATED);
+        $user = $question->user;
+        $user->notify(new NewReplyNotification($reply));    
+        return response(new ReplyResource($reply), Response::HTTP_CREATED);
     }
 
     /**
@@ -66,10 +68,10 @@ class ReplyController extends Controller
      * @param  \App\Models\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Question $question)
+    public function update(ReplyRequest $request, Question $question, Reply $reply)
     {
-        $question->replies()->update(['body' => $request->body]);
-        return response('Your reply updated successfully', Response::HTTP_OK);
+        $reply->update($request->only(['body']));
+        return response(new ReplyResource($reply), Response::HTTP_OK);
     }
 
     /**
@@ -81,6 +83,6 @@ class ReplyController extends Controller
     public function destroy(Question $question, Reply $reply)
     {
         $reply->delete();
-        return response('Your reply deleted successfully', Response::HTTP_NO_CONTENT);
+        return response(new ReplyResource($reply), Response::HTTP_NO_CONTENT);
     }
 }

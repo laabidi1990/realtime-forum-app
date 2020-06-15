@@ -1,5 +1,6 @@
 
 <template>
+  <router-link :to="question.path" tag="v-card">
   <v-card class="mx-auto" color="#51B0FF" dark max-width="auto">
  
     <v-card-title>
@@ -11,11 +12,9 @@
             <span class="title font-weight-normal">
                 {{ question.title }}
             </span>
-            <router-link :to="question.path">
-                <v-icon large class="align-self-center">
-                    mdi-gesture-swipe-right
-                </v-icon>
-            </router-link>
+         
+      
+      
           </div>
           <small class="text-muted">Asked {{ question.creation_date }}</small>
       </div>
@@ -36,13 +35,14 @@
         </v-list-item-content>
 
         <v-row align="center" justify="end">
-          <v-icon class="mr-1">mdi-heart</v-icon>
-          <span class="subheading mr-2">256</span>
+          <v-icon class="mr-2 pt-1">mdi-message</v-icon>
+          <span class="subheading mr-2"><strong>{{ question.replies_count}}</strong></span>
         </v-row>
       </v-list-item>
     </v-card-actions>
 
   </v-card>
+  </router-link>
 </template>
 
 <script>

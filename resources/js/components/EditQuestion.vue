@@ -4,7 +4,7 @@
             <v-text-field class="mb-3" v-model="form.title" :counter="5" :rules="rules.titleRules" label="Title" required>
             </v-text-field>
 
-            <v-textarea class="mb-3" v-model="form.body" :counter="20" :rules="rules.descriptionRules" label="Description" outlined required>
+            <v-textarea class="mb-3" v-model="form.body" :counter="10" :rules="rules.descriptionRules" label="Description" outlined required>
             </v-textarea>
 
             <!-- <vue-simplemde v-model="description" ref="markdownEditor" /> -->
@@ -45,11 +45,11 @@
                      
                 descriptionRules: [
                     v => !!v || 'Description is required',
-                    v => (v && v.length >= 20) || 'Title must have at least 10 characters',
+                    v => (v && v.length >= 10) || 'Title must have at least 10 characters',
                 ],
             },
             valid: true,
-            categories: [],
+            categories: [], 
         }
     },
 
@@ -68,7 +68,7 @@
         this.$refs.form.validate();
         axios.patch(`/api/questions/${this.question.slug}`, this.form)
         .then(res => {
-            this.cancel();
+            EventBus.$emit('editFinished');
             this.$router.push(`/questions/${res.data.slug}`);
         })
         .catch(err => console.log(err.response.data))

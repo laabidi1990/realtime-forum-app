@@ -25,7 +25,7 @@ class QuestionRequest extends FormRequest
     {
         return [
             'title' => 'required|min:5|max:255',
-            'body' => 'required|min:20',
+            'body' => 'required|min:10',
             'category_id' => 'required',
         ];
     }

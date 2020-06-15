@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ReplyResource;
 use App\Models\Like;
 use App\Models\Reply;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class LikeController extends Controller
 {
@@ -26,8 +28,9 @@ class LikeController extends Controller
      */
     public function like(Reply $reply)
     {
-        //$reply->likes()->create(['user_id' => auth()->id()]);
-        $reply->likes()->create(['user_id' => 1]);
+        $reply->likes()->create(['user_id' => auth()->id()]);
+        //$reply->likes()->create(['user_id' => 1]);
+        return response(new ReplyResource($reply), Response::HTTP_OK);
     }
 
     /**
@@ -39,5 +42,6 @@ class LikeController extends Controller
     public function dislike(Reply $reply)
     {
         $reply->likes()->where('user_id', auth()->id())->first()->delete();
+        return response(new ReplyResource($reply), Response::HTTP_OK);
     }
 }

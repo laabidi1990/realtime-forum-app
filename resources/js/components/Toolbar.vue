@@ -1,12 +1,11 @@
 
 <template>
-  <v-card color="grey lighten-4" flat height="100px" tile>
+  <v-card color="grey lighten-4" flat height="100px">
     <v-toolbar dense>
       <v-toolbar-title>Realtime Forum</v-toolbar-title>
-      <v-icon>mdi-heart</v-icon>
 
       <v-spacer></v-spacer>
-
+        <notifications></notifications>
         <router-link v-for="item in items" :key="item.title" :to="item.to" v-show="item.show">
             <v-btn class="ma-5" tile outlined color="indigo">{{ item.title }}</v-btn>
         </router-link>
@@ -17,7 +16,12 @@
 </template>
 
 <script>
+import Notifications from './notifications/Notifications'
+
   export default {
+    components: {
+      Notifications
+    },
     data() {
       return {
         items: [
