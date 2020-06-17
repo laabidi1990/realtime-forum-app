@@ -82,7 +82,6 @@ export default {
             if (confirm('Are you sure!')) {
                 axios.delete(`/api/questions/${this.reply.question_slug}/replies/${this.reply.id}`)
                     .then(res => { 
-                        console.log(res.data);
                         EventBus.$emit('deletedReply', this.index)
                     })
                     .catch(err => console.log(err.response.data))
@@ -91,7 +90,6 @@ export default {
         updateReply() {
             axios.patch(`/api/questions/${this.reply.question_slug}/replies/${this.reply.id}`, {body: this.body})
                 .then(res => { 
-                    console.log(res.data);
                     this.body = res.data.reply
                     this.editing = false;
                     EventBus.$emit('editedReply', this.index, res.data)

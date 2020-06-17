@@ -84,7 +84,6 @@ export default {
             this.$refs.form.validate();
             axios.post('/api/categories', this.form)
             .then(res => {
-                console.log(res.data);
                 this.categories.unshift(res.data)
                 this.$refs.form.reset();
             })
@@ -120,7 +119,6 @@ export default {
             if (confirm('Are you sure!')) {
                 axios.delete(`/api/categories/${slug}`)
                 .then(res => {
-                    console.log(res.data)
                     this.categories.splice(index,1)
                 })
                 .catch(err => console.log(err.reponse.data))

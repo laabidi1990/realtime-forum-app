@@ -40,7 +40,7 @@
 
         <v-row align="center" justify="end">
             <v-icon class="mr-2 pt-1">mdi-message</v-icon>
-            <span class="subheading mr-2"><strong>{{ question.replies_count}}</strong></span>
+            <span class="subheading mr-2"><strong>{{ repliesCount}}</strong></span>
         </v-row>
       </v-list-item>
     </v-card-actions>
@@ -55,7 +55,8 @@ export default {
     ],
     data() {
       return {
-        question: this.question,
+        newQuestion: this.question,
+        repliesCount: this.question.replies_count,
         beforeEditCache: {
           cachedTitle: this.question.title,
           cachedBody: this.question.body,
@@ -69,6 +70,16 @@ export default {
     },
     created() {
       this.listen()
+
+      Echo.channel('deleteReplyChannel')
+      .listen('DeleteReplyEvent', (e) => {
+          this.repliesCount--;
+      });
+
+      Echo.channel('NewReply')
+        .listen('NewReplyEvent', (e) => {
+           this.repliesCount++;
+        });
     },
     methods: {
       deleteQuestion() {
@@ -86,8 +97,16 @@ export default {
       },
       listen() {
         EventBus.$on('cancelEditing', () => {
-          this.question.title = this.beforeEditCache.cachedTitle
-          this.question.body = this.beforeEditCache.cachedBody
+          this.newQuestion.title = this.beforeEditCache.cachedTitle
+          this.newQuestion.body = this.beforeEditCache.cachedBody
+        })
+
+        EventBus.$on('newReply', () => {
+            this.repliesCount++;
+        })
+
+        EventBus.$on('deletedReply', () => {
+           this.repliesCount--;
         })
       }
     },

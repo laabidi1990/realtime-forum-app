@@ -59,7 +59,6 @@
         this.$refs.form.validate();
         axios.post('/api/questions', this.form)
         .then(res => {
-            console.log(res.data);
             this.$router.push(res.data.path);
             this.$refs.form.reset();
         })

@@ -12,12 +12,12 @@
         </v-tab>
       </template>
       <v-list class="px-5">
-        <v-list-item v-for="(item, index) in unread" :key="item.id">
+        <v-list-item v-for="(item, index) in unread" :key="index">
           <router-link :to="item.path">
             <v-list-item-title @click="markRead(item)">{{ item.question }}</v-list-item-title>
           </router-link>
         </v-list-item>
-        <v-list-item v-for="(item, index) in read" :key="item.id">
+        <v-list-item v-for="item in read" :key="item.id">
             <v-list-item-title>{{ item.question }}</v-list-item-title>
         </v-list-item>
       </v-list>
@@ -55,7 +55,7 @@
                 this.unread = res.data.unread;
                 this.unreadCount = res.data.unread.length;
             })
-            .catch(err => console.log(err.response.data));
+            .catch(err => Exception.handler(err));
         },
         markRead(notification) {
           axios.post(`/api/notifications/mark-read`, {id: notification.id})

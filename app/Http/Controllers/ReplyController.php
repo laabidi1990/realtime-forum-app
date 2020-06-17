@@ -48,7 +48,11 @@ class ReplyController extends Controller
             'user_id' => Auth::id(),
         ]);
         $user = $question->user;
-        $user->notify(new NewReplyNotification($reply));
+        
+        if ($question->user_id != Auth::id()) {
+            $user->notify(new NewReplyNotification($reply));
+        }
+ 
         broadcast(new NewReplyEvent(new ReplyResource($reply)))->toOthers();    
         return response(new ReplyResource($reply), Response::HTTP_CREATED);
     }

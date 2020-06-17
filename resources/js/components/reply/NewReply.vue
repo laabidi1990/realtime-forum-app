@@ -44,7 +44,6 @@
         this.$refs.form.validate();
         axios.post(`/api/questions/${this.slug}/replies`, {body: this.body})
         .then(res => {
-            console.log(res.data);
             EventBus.$emit('newReply', res.data);
             this.$refs.form.reset();
             window.scrollTo(0,0);

@@ -58,7 +58,6 @@
       methods: {
           login() {
               User.login(this.form);
-              window.location = '/forum';
           }
       }
   }

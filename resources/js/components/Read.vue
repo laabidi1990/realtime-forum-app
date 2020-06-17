@@ -3,7 +3,10 @@
         <edit-question v-if="editing" :question='question'></edit-question>
         <show-question v-else :question='question'></show-question>
         <replies :replies='question.replies' :slug='question.slug'></replies>
-        <new-reply :slug='question.slug'></new-reply>
+        <new-reply v-if="loggedIn" :slug='question.slug'></new-reply>
+        <div v-else class="m-2 mb-5 text-center h5">
+            <router-link to="/login">Login to Reply</router-link>
+        </div>
     </div>
 </template>
 
@@ -24,6 +27,11 @@ export default {
         return {
             question: null,
             editing: false,
+        }
+    },
+    computed: {
+        loggedIn() {
+            return User.loggedIn();
         }
     },
     created() {

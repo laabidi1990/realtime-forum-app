@@ -7,6 +7,7 @@ class User {
         axios.post('/api/auth/login', data)
         .then( res => {
             this.responseAfterLogin(res);
+            window.location = '/forum';
         })
         .catch( err => {
             console.log(err.response.data);
@@ -25,7 +26,7 @@ class User {
     hasToken() {
         const storedToken = Storage.getToken();
         if (storedToken) {
-            return Token.isValid(storedToken) ? true : false;
+            return Token.isValid(storedToken) ? true : this.logOut();
         }
 
         return false;

@@ -19,6 +19,9 @@ import 'simplemde/dist/simplemde.min.css'
 import User from './helpers/User';
 window.User = User;
 
+import Exception from './helpers/Exception';
+window.Exception = Exception;
+
 window.EventBus = new Vue();
 
 Vue.component('app-home', require('./components/AppHome').default);
