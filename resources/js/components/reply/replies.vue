@@ -30,12 +30,30 @@ export default {
             EventBus.$on('newReply', (reply) => {
                 this.newReplies.unshift(reply)
             })
+
             EventBus.$on('deletedReply', (index) => {
                 this.newReplies.splice(index, 1)
             })
+
             EventBus.$on('editedReply', (index, reply) => {
                 this.newReplies.splice(index, 1, reply)
             })
+
+            Echo.channel('deleteReplyChannel')
+                .listen('DeleteReplyEvent', (e) => {
+                    this.newReplies.forEach(reply => {
+                        if (reply.id === e.id) {
+                            this.newReplies.splice(reply, 1);
+                        }
+                    });
+                });
+
+            Echo.channel('NewReply')
+                .listen('NewReplyEvent', (e) => {
+                   this.newReplies.unshift(e.reply)
+                });
+
+            
         },
     }
 }

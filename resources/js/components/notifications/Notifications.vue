@@ -1,13 +1,14 @@
 <template>
-  <div class="text-center">
+  <div class="text-center" v-if="loggedIn">
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-tab class="mr-5">
             <v-btn icon class="ml-5 pt-2" color="red" v-bind="attrs" v-on="on">
                 <v-icon>mdi-bell</v-icon>
             </v-btn>
-            <v-badge color="red" :content="unreadCount">
-            </v-badge>
+            <span>
+              {{ unreadCount }}
+            </span>
         </v-tab>
       </template>
       <v-list class="px-5">
@@ -35,9 +36,16 @@
         if (User.loggedIn()) {
             this.getNotifications()
         }
+        Echo.private('App.User.' + User.id())
+          .notification((notification) => {
+            this.unread.push(notification);
+            this.unreadCount++ ;
+          });
     },
     computed: {
- 
+      loggedIn() {
+        return User.loggedIn();
+      }
     },
     methods: {
         getNotifications() {
@@ -62,5 +70,11 @@
 </script>
 
 <style scoped>
-
+  span {
+    color: red;
+    font-weight: bold;
+    position: absolute;
+    top: 15%;
+    left: 70%;
+  }
 </style>
